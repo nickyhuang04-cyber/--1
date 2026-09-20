@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美股國際新聞 - 台股分析網站</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="us-news">
+<header class="topbar">
+  <div class="brand">📈 台股分析</div>
+  <nav class="nav">
+    <a href="index.html" data-page="home">首頁</a>
+    <a href="stock.html" data-page="stock">個股</a>
+    <a href="notes.html" data-page="notes">追蹤筆記</a>
+    <a href="tw-news.html" data-page="tw-news">台股新聞</a>
+    <a href="us-news.html" data-page="us-news">美股國際新聞</a>
+  </nav>
+  <form id="global-search-form" class="search-form">
+    <input id="global-search-input" type="text" placeholder="輸入股票代號，例如 2330" autocomplete="off" inputmode="numeric">
+    <button type="submit">查詢</button>
+  </form>
+</header>
+
+<main class="layout">
+  <aside class="sidebar">
+    <h2>自選股</h2>
+    <ul id="watchlist"></ul>
+  </aside>
+
+  <section class="content">
+    <div class="hero">
+      <h1>美股 / 國際財經新聞</h1>
+      <p>即時擷取 Yahoo Finance 財經新聞頭條，內容為英文，點擊標題可前往原文網站閱讀完整報導。</p>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Yahoo Finance Top Stories</div>
+      <div id="news-status" class="hint">載入中...</div>
+      <ul class="news-list" id="news-list"></ul>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">其他國際財經資訊來源</div>
+      <div class="link-grid">
+        <a class="link-card" href="https://finance.yahoo.com/" target="_blank" rel="noopener">
+          <div class="title">Yahoo Finance</div>
+          <div class="desc">美股報價與財經新聞</div>
+        </a>
+        <a class="link-card" href="https://www.marketwatch.com/" target="_blank" rel="noopener">
+          <div class="title">MarketWatch</div>
+          <div class="desc">美股市場動態</div>
+        </a>
+        <a class="link-card" href="https://www.reuters.com/markets/" target="_blank" rel="noopener">
+          <div class="title">Reuters Markets</div>
+          <div class="desc">國際市場即時新聞</div>
+        </a>
+        <a class="link-card" href="https://www.bloomberg.com/markets" target="_blank" rel="noopener">
+          <div class="title">Bloomberg Markets</div>
+          <div class="desc">全球財經與總經分析</div>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  資料來源：Yahoo Finance RSS；新聞連結導向原站，內容版權屬原媒體所有。
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/twse-api.js"></script>
+<script src="js/us-news.js"></script>
+</body>
+</html>

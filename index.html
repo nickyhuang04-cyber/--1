@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台股分析網站</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+<body data-page="home">
+<header class="topbar">
+  <div class="brand">📈 台股分析</div>
+  <nav class="nav">
+    <a href="index.html" data-page="home">首頁</a>
+    <a href="stock.html" data-page="stock">個股</a>
+    <a href="notes.html" data-page="notes">追蹤筆記</a>
+    <a href="tw-news.html" data-page="tw-news">台股新聞</a>
+    <a href="us-news.html" data-page="us-news">美股國際新聞</a>
+  </nav>
+  <form id="global-search-form" class="search-form">
+    <input id="global-search-input" type="text" placeholder="輸入股票代號，例如 2330" autocomplete="off" inputmode="numeric">
+    <button type="submit">查詢</button>
+  </form>
+</header>
+
+<main class="layout">
+  <aside class="sidebar">
+    <h2>自選股</h2>
+    <ul id="watchlist"></ul>
+    <p class="hint">於「個股」頁查詢股票後可加入自選股，這裡會列出快速捷徑。</p>
+  </aside>
+
+  <section class="content">
+    <div class="hero">
+      <h1>台股分析網站</h1>
+      <p>提供大盤概況、個股技術指標分析（K線 / 均線 / KD / RSI / MACD）、基本面資訊、自選股比較，以及台股與美股國際財經新聞快速入口。</p>
+    </div>
+
+    <div class="summary-grid" id="market-summary">
+      <div class="summary-card"><div class="label">載入中...</div></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">加權指數（TAIEX）近期走勢</div>
+      <div id="taiex-chart" class="chart price-chart"></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">熱門股票</div>
+      <div class="quick-list" id="quick-list"></div>
+    </div>
+
+    <div class="chart-card" id="watchlist-overview-card">
+      <div class="chart-title">自選股總覽</div>
+      <div id="watchlist-empty" class="hint">尚未加入任何自選股，前往「個股」頁查詢並加入自選股後，這裡會顯示比較表。</div>
+      <table class="compare-table" id="watchlist-table" hidden>
+        <thead>
+          <tr><th>代號</th><th>名稱</th><th>收盤價</th><th>漲跌</th><th>本益比</th><th>殖利率(%)</th><th>股價淨值比</th></tr>
+        </thead>
+        <tbody id="watchlist-table-body"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  資料來源：<a href="https://www.twse.com.tw" target="_blank" rel="noopener">臺灣證券交易所 開放資訊</a>（僅支援上市股票，資料為每日收盤後資訊，非即時報價，本站僅供參考不構成投資建議）
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/twse-api.js"></script>
+<script src="js/indicators.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

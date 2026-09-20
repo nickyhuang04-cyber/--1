@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>追蹤筆記 - 台股分析網站</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="notes">
+<header class="topbar">
+  <div class="brand">📈 台股分析</div>
+  <nav class="nav">
+    <a href="index.html" data-page="home">首頁</a>
+    <a href="stock.html" data-page="stock">個股</a>
+    <a href="notes.html" data-page="notes">追蹤筆記</a>
+    <a href="tw-news.html" data-page="tw-news">台股新聞</a>
+    <a href="us-news.html" data-page="us-news">美股國際新聞</a>
+  </nav>
+  <form id="global-search-form" class="search-form">
+    <input id="global-search-input" type="text" placeholder="輸入股票代號，例如 2330" autocomplete="off" inputmode="numeric">
+    <button type="submit">查詢</button>
+  </form>
+</header>
+
+<main class="layout">
+  <aside class="sidebar">
+    <h2>自選股</h2>
+    <ul id="watchlist"></ul>
+  </aside>
+
+  <section class="content">
+    <div class="hero">
+      <h1>追蹤筆記</h1>
+      <p>記錄想追蹤的股票代號、目標價格，以及想進一步查證的問題。內容會自動儲存在瀏覽器（localStorage），重新整理或下次造訪都會保留。</p>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">我的追蹤清單</div>
+      <table class="notes-table">
+        <thead>
+          <tr>
+            <th style="width:16%">股票代號</th>
+            <th style="width:16%">目標價格</th>
+            <th>想問的問題</th>
+            <th style="width:80px"></th>
+          </tr>
+        </thead>
+        <tbody id="notes-table-body"></tbody>
+      </table>
+      <button id="add-row-btn" class="watch-btn" style="margin-top:14px;">＋ 新增一列</button>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  資料僅儲存在本機瀏覽器，清除瀏覽器資料或更換裝置／瀏覽器將無法保留內容。
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/notes.js"></script>
+</body>
+</html>

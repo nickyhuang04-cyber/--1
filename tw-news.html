@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台股新聞 - 台股分析網站</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="tw-news">
+<header class="topbar">
+  <div class="brand">📈 台股分析</div>
+  <nav class="nav">
+    <a href="index.html" data-page="home">首頁</a>
+    <a href="stock.html" data-page="stock">個股</a>
+    <a href="notes.html" data-page="notes">追蹤筆記</a>
+    <a href="tw-news.html" data-page="tw-news">台股新聞</a>
+    <a href="us-news.html" data-page="us-news">美股國際新聞</a>
+  </nav>
+  <form id="global-search-form" class="search-form">
+    <input id="global-search-input" type="text" placeholder="輸入股票代號，例如 2330" autocomplete="off" inputmode="numeric">
+    <button type="submit">查詢</button>
+  </form>
+</header>
+
+<main class="layout">
+  <aside class="sidebar">
+    <h2>自選股</h2>
+    <ul id="watchlist"></ul>
+  </aside>
+
+  <section class="content">
+    <div class="hero">
+      <h1>台股新聞</h1>
+      <p>目前公開、免金鑰且允許瀏覽器直接讀取的台股新聞 API 十分有限，本站改以臺灣證券交易所「公布注意股票」即時公開資料，搭配主要財經媒體台股新聞版面的快速連結，協助你即時掌握市場動態。</p>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">今日公布注意股票（臺灣證券交易所即時公開資料）</div>
+      <div id="notice-status" class="hint">載入中...</div>
+      <table class="compare-table notice-table" id="notice-table" hidden>
+        <thead>
+          <tr><th>證券代號</th><th>證券名稱</th><th>注意交易資訊</th><th>累計次數</th><th>收盤價</th><th>本益比</th></tr>
+        </thead>
+        <tbody id="notice-table-body"></tbody>
+      </table>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">台股新聞快速連結（開新分頁前往各財經媒體）</div>
+      <div class="link-grid">
+        <a class="link-card" href="https://news.cnyes.com/news/cat/tw_stock" target="_blank" rel="noopener">
+          <div class="title">鉅亨網 台股新聞</div>
+          <div class="desc">個股消息、產業動態、法人動向</div>
+        </a>
+        <a class="link-card" href="https://tw.stock.yahoo.com/" target="_blank" rel="noopener">
+          <div class="title">Yahoo奇摩股市</div>
+          <div class="desc">即時報價與市場新聞</div>
+        </a>
+        <a class="link-card" href="https://money.udn.com/money/index" target="_blank" rel="noopener">
+          <div class="title">經濟日報 / 聯合新聞網 money</div>
+          <div class="desc">總體經濟與產業新聞</div>
+        </a>
+        <a class="link-card" href="https://www.moneydj.com/" target="_blank" rel="noopener">
+          <div class="title">MoneyDJ 理財網</div>
+          <div class="desc">技術分析、基金與債券資訊</div>
+        </a>
+        <a class="link-card" href="https://www.cna.com.tw/list/aall.aspx" target="_blank" rel="noopener">
+          <div class="title">中央社 財經</div>
+          <div class="desc">即時財經要聞</div>
+        </a>
+        <a class="link-card" href="https://mops.twse.com.tw/mops/#/web/t05st02" target="_blank" rel="noopener">
+          <div class="title">公開資訊觀測站 重大訊息</div>
+          <div class="desc">上市公司即時重大訊息公告</div>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  資料來源：<a href="https://www.twse.com.tw" target="_blank" rel="noopener">臺灣證券交易所 開放資訊</a>；新聞連結導向各媒體原站，內容版權屬各媒體所有。
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/twse-api.js"></script>
+<script src="js/tw-news.js"></script>
+</body>
+</html>

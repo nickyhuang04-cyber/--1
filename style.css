@@ -1,0 +1,342 @@
+:root {
+  --bg: #0f1117;
+  --bg-card: #171a24;
+  --bg-card-alt: #1e2230;
+  --border: #2a2f3f;
+  --text: #e6e8ef;
+  --text-dim: #9aa0b4;
+  --accent: #4f8cff;
+  --up: #e6483c;
+  --down: #1fa774;
+  --flat: #9aa0b4;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Noto Sans TC", "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---- 導覽列 ---- */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 24px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-size: 1.3rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.nav {
+  display: flex;
+  gap: 4px;
+}
+
+.nav a {
+  color: var(--text-dim);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.nav a:hover { color: var(--text); text-decoration: none; background: var(--bg-card-alt); }
+.nav a.active { color: #fff; background: var(--accent); }
+
+.search-form {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.search-form input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  width: 160px;
+}
+
+.search-form button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.search-form button:hover { opacity: 0.9; }
+
+/* ---- 版面 ---- */
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 20px;
+  padding: 20px 24px;
+  flex: 1;
+  align-items: start;
+}
+
+.sidebar {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  position: sticky;
+  top: 20px;
+}
+
+.sidebar h2 { margin: 0 0 12px; font-size: 1rem; color: var(--text-dim); }
+
+#watchlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+
+#watchlist li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--bg-card-alt);
+  font-size: 0.9rem;
+}
+
+#watchlist li a { color: var(--text); font-weight: 600; }
+#watchlist li button {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+#watchlist li button:hover { color: var(--up); }
+
+.hint { color: var(--text-dim); font-size: 0.8rem; line-height: 1.5; }
+
+.content { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+
+.status-msg {
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  background: var(--bg-card-alt);
+  color: var(--text-dim);
+}
+.status-msg.error { color: var(--up); }
+
+/* ---- 卡片 / 圖表 ---- */
+.chart-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.chart-title { font-weight: 700; margin-bottom: 10px; color: var(--text-dim); font-size: 0.9rem; }
+
+.chart { width: 100%; }
+.price-chart { height: 420px; }
+.small-chart { height: 160px; }
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ---- 個股頁首 ---- */
+.stock-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+
+.stock-header h2 { margin: 0; font-size: 1.6rem; }
+.stock-code { color: var(--text-dim); font-size: 0.95rem; }
+
+.price-block { display: flex; align-items: baseline; gap: 10px; margin-left: auto; }
+.stock-price { font-size: 2rem; font-weight: 800; }
+.stock-change { font-size: 1.1rem; font-weight: 600; }
+.stock-change.up, .price-up { color: var(--up); }
+.stock-change.down, .price-down { color: var(--down); }
+.stock-change.flat, .price-flat { color: var(--flat); }
+
+.watch-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+}
+.watch-btn.active { background: var(--accent); color: #fff; }
+
+.range-controls { display: flex; gap: 8px; }
+.range-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-dim);
+  cursor: pointer;
+  font-weight: 600;
+}
+.range-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ---- 表格 ---- */
+table { width: 100%; border-collapse: collapse; }
+.fundamentals-table th, .fundamentals-table td,
+.compare-table th, .compare-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  font-size: 0.9rem;
+}
+.fundamentals-table th { color: var(--text-dim); width: 140px; font-weight: 600; }
+.compare-table th { color: var(--text-dim); font-weight: 600; }
+.compare-table tr:hover { background: var(--bg-card-alt); }
+
+/* ---- 快速股票清單 ---- */
+.quick-list { display: flex; gap: 8px; flex-wrap: wrap; width: 100%; margin-top: 4px; }
+.quick-list button {
+  padding: 5px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--bg-card-alt);
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.quick-list button:hover { color: var(--text); border-color: var(--accent); }
+
+/* ---- 首頁專屬 ---- */
+.hero {
+  background: linear-gradient(135deg, #1c2136, #171a24);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+.hero h1 { margin: 0 0 6px; font-size: 1.8rem; }
+.hero p { color: var(--text-dim); margin: 0; }
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.summary-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.summary-card .label { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 8px; }
+.summary-card .value { font-size: 1.5rem; font-weight: 800; }
+.summary-card .sub { font-size: 0.9rem; margin-top: 4px; }
+
+/* ---- 新聞頁 ---- */
+.news-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.news-list li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.news-list li:last-child { border-bottom: none; }
+.news-list a { font-weight: 700; color: var(--text); font-size: 1rem; }
+.news-list a:hover { color: var(--accent); }
+.news-meta { color: var(--text-dim); font-size: 0.8rem; margin-top: 4px; }
+.news-desc { color: var(--text-dim); font-size: 0.88rem; margin-top: 6px; line-height: 1.5; }
+
+.link-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+.link-card {
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  display: block;
+}
+.link-card .title { font-weight: 700; color: var(--text); }
+.link-card .desc { color: var(--text-dim); font-size: 0.82rem; margin-top: 4px; }
+
+.notice-table td, .notice-table th { padding: 8px 10px; font-size: 0.85rem; }
+
+/* ---- 追蹤筆記表格 ---- */
+.notes-table th, .notes-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+.notes-table th { color: var(--text-dim); font-weight: 600; font-size: 0.85rem; }
+.notes-table input[type="text"],
+.notes-table input[type="number"],
+.notes-table textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+.notes-table input:focus,
+.notes-table textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.notes-table textarea { min-height: 40px; }
+.notes-table .row-delete-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  width: 100%;
+}
+.notes-table .row-delete-btn:hover { color: var(--up); border-color: var(--up); }
+.notes-empty { color: var(--text-dim); padding: 20px 0; }
+
+.footer {
+  text-align: center;
+  padding: 16px;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+  .chart-grid { grid-template-columns: 1fr; }
+  .price-block { margin-left: 0; }
+}
