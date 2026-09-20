@@ -217,6 +217,33 @@ async function fetchMarketSummary() {
   return null;
 }
 
+// 股票代號 -> 中文名稱對照表（用於自選股清單等顯示名稱），同一頁面內只會實際請求一次
+let stockNameMapPromise = null;
+
+async function fetchStockNameMap() {
+  const cacheKey = 'twse_stock_name_map';
+  const cached = cacheGet(cacheKey, 24 * 60 * 60 * 1000);
+  if (cached) return cached;
+  try {
+    const json = await fetchJSON(`${TWSE_BASE}/exchangeReport/BWIBBU_ALL?response=json`);
+    const map = {};
+    if (json && json.stat === 'OK' && Array.isArray(json.data)) {
+      json.data.forEach(([code, name]) => {
+        if (code && name) map[code] = name.trim();
+      });
+    }
+    cacheSet(cacheKey, map);
+    return map;
+  } catch (e) {
+    return {};
+  }
+}
+
+function getStockNameMap() {
+  if (!stockNameMapPromise) stockNameMapPromise = fetchStockNameMap();
+  return stockNameMapPromise;
+}
+
 // 今日公布注意股票（官方即時公開資料，可視為台股即時訊息的一種）
 async function fetchAttentionStocks() {
   const cacheKey = 'twse_attention_notice';

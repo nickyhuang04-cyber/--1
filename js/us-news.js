@@ -2,7 +2,7 @@
 const US_NEWS_CACHE_KEY = 'us_news_cache_v1';
 const US_NEWS_MAX_AGE = 15 * 60 * 1000;
 
-function renderWatchlistSidebar() {
+async function renderWatchlistSidebar() {
   const ul = document.getElementById('watchlist');
   const list = getWatchlist();
   ul.innerHTML = '';
@@ -13,11 +13,13 @@ function renderWatchlistSidebar() {
     ul.appendChild(li);
     return;
   }
+  const nameMap = await getStockNameMap();
   list.forEach((code) => {
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = `stock.html?code=${encodeURIComponent(code)}`;
-    a.textContent = code;
+    const name = nameMap[code];
+    a.textContent = name ? `${name} ${code}` : code;
     const btn = document.createElement('button');
     btn.textContent = '✕';
     btn.title = '移除自選';

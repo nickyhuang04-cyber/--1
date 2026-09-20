@@ -1,5 +1,5 @@
 // 追蹤筆記頁邏輯：可填寫表格（股票代號 / 目標價格 / 想問的問題），資料存於 Supabase「notes」資料表
-function renderWatchlistSidebar() {
+async function renderWatchlistSidebar() {
   const ul = document.getElementById('watchlist');
   const list = getWatchlist();
   ul.innerHTML = '';
@@ -10,11 +10,13 @@ function renderWatchlistSidebar() {
     ul.appendChild(li);
     return;
   }
+  const nameMap = await getStockNameMap();
   list.forEach((code) => {
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = `stock.html?code=${encodeURIComponent(code)}`;
-    a.textContent = code;
+    const name = nameMap[code];
+    a.textContent = name ? `${name} ${code}` : code;
     const btn = document.createElement('button');
     btn.textContent = '✕';
     btn.title = '移除自選';

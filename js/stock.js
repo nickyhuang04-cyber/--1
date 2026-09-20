@@ -29,7 +29,7 @@ function renderQuickList() {
   });
 }
 
-function renderWatchlistSidebar() {
+async function renderWatchlistSidebar() {
   const ul = document.getElementById('watchlist');
   const list = getWatchlist();
   ul.innerHTML = '';
@@ -40,11 +40,13 @@ function renderWatchlistSidebar() {
     ul.appendChild(li);
     return;
   }
+  const nameMap = await getStockNameMap();
   list.forEach((code) => {
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = `stock.html?code=${encodeURIComponent(code)}`;
-    a.textContent = code;
+    const name = nameMap[code];
+    a.textContent = name ? `${name} ${code}` : code;
     a.addEventListener('click', (e) => {
       e.preventDefault();
       loadStock(code);

@@ -1,6 +1,6 @@
 // 台股新聞頁邏輯：顯示 TWSE 公布注意股票（即時公開資料）
 
-function renderWatchlistSidebar() {
+async function renderWatchlistSidebar() {
   const ul = document.getElementById('watchlist');
   const list = getWatchlist();
   ul.innerHTML = '';
@@ -11,11 +11,13 @@ function renderWatchlistSidebar() {
     ul.appendChild(li);
     return;
   }
+  const nameMap = await getStockNameMap();
   list.forEach((code) => {
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = `stock.html?code=${encodeURIComponent(code)}`;
-    a.textContent = code;
+    const name = nameMap[code];
+    a.textContent = name ? `${name} ${code}` : code;
     const btn = document.createElement('button');
     btn.textContent = '✕';
     btn.title = '移除自選';
