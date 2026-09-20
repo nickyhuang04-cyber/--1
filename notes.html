@@ -31,7 +31,7 @@
   <section class="content">
     <div class="hero">
       <h1>追蹤筆記</h1>
-      <p>記錄想追蹤的股票代號、目標價格，以及想進一步查證的問題。內容會自動儲存在瀏覽器（localStorage），重新整理或下次造訪都會保留。</p>
+      <p>記錄想追蹤的股票代號、目標價格，以及想進一步查證的問題。內容會即時同步到雲端資料庫（Supabase），任何裝置或瀏覽器造訪都會看到相同的清單。</p>
     </div>
 
     <div class="chart-card">
@@ -53,9 +53,11 @@
 </main>
 
 <footer class="footer">
-  資料僅儲存在本機瀏覽器，清除瀏覽器資料或更換裝置／瀏覽器將無法保留內容。
+  資料儲存在雲端資料庫（Supabase），此頁面目前為公開讀寫，任何造訪者都能看到並編輯同一份清單。
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
 <script src="js/common.js"></script>
 <script src="js/notes.js"></script>
 </body>

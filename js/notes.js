@@ -1,6 +1,4 @@
-// 追蹤筆記頁邏輯：可填寫表格（股票代號 / 目標價格 / 想問的問題），存於 localStorage
-const NOTES_KEY = 'tw_notes_v1';
-
+// 追蹤筆記頁邏輯：可填寫表格（股票代號 / 目標價格 / 想問的問題），資料存於 Supabase「notes」資料表
 function renderWatchlistSidebar() {
   const ul = document.getElementById('watchlist');
   const list = getWatchlist();
@@ -30,29 +28,47 @@ function renderWatchlistSidebar() {
   });
 }
 
-function loadNotes() {
-  try {
-    const raw = localStorage.getItem(NOTES_KEY);
-    const list = raw ? JSON.parse(raw) : [];
-    return Array.isArray(list) ? list : [];
-  } catch (e) {
+let notes = [];
+
+async function fetchNotes() {
+  const { data, error } = await supabaseClient
+    .from('notes')
+    .select('*')
+    .order('created_at', { ascending: true });
+  if (error) {
+    console.error('讀取追蹤筆記失敗', error);
     return [];
   }
+  return data;
 }
 
-function saveNotes(list) {
-  try {
-    localStorage.setItem(NOTES_KEY, JSON.stringify(list));
-  } catch (e) {
-    /* localStorage 不可用時靜默略過 */
+async function updateNoteField(id, patch) {
+  const { error } = await supabaseClient
+    .from('notes')
+    .update(patch)
+    .eq('id', id);
+  if (error) console.error('更新追蹤筆記失敗', error);
+}
+
+const debouncedUpdateNoteField = debounce(updateNoteField, 500);
+
+async function insertNote() {
+  const { data, error } = await supabaseClient
+    .from('notes')
+    .insert({ code: '', target_price: null, question: '' })
+    .select()
+    .single();
+  if (error) {
+    console.error('新增追蹤筆記失敗', error);
+    return null;
   }
+  return data;
 }
 
-function makeId() {
-  return `n${Date.now()}${Math.floor(Math.random() * 1000)}`;
+async function deleteNote(id) {
+  const { error } = await supabaseClient.from('notes').delete().eq('id', id);
+  if (error) console.error('刪除追蹤筆記失敗', error);
 }
-
-let notes = loadNotes();
 
 function renderNotesTable() {
   const body = document.getElementById('notes-table-body');
@@ -80,7 +96,7 @@ function renderNotesTable() {
     codeInput.value = note.code || '';
     codeInput.addEventListener('input', () => {
       note.code = codeInput.value;
-      saveNotes(notes);
+      debouncedUpdateNoteField(note.id, { code: note.code });
     });
     codeTd.appendChild(codeInput);
 
@@ -89,10 +105,10 @@ function renderNotesTable() {
     priceInput.type = 'number';
     priceInput.step = '0.01';
     priceInput.placeholder = '例如 650';
-    priceInput.value = note.targetPrice ?? '';
+    priceInput.value = note.target_price ?? '';
     priceInput.addEventListener('input', () => {
-      note.targetPrice = priceInput.value;
-      saveNotes(notes);
+      note.target_price = priceInput.value === '' ? null : Number(priceInput.value);
+      debouncedUpdateNoteField(note.id, { target_price: note.target_price });
     });
     priceTd.appendChild(priceInput);
 
@@ -102,7 +118,7 @@ function renderNotesTable() {
     questionInput.value = note.question || '';
     questionInput.addEventListener('input', () => {
       note.question = questionInput.value;
-      saveNotes(notes);
+      debouncedUpdateNoteField(note.id, { question: note.question });
     });
     questionTd.appendChild(questionInput);
 
@@ -110,10 +126,10 @@ function renderNotesTable() {
     const delBtn = document.createElement('button');
     delBtn.className = 'row-delete-btn';
     delBtn.textContent = '刪除';
-    delBtn.addEventListener('click', () => {
+    delBtn.addEventListener('click', async () => {
       notes = notes.filter((n) => n.id !== note.id);
-      saveNotes(notes);
       renderNotesTable();
+      await deleteNote(note.id);
     });
     actionTd.appendChild(delBtn);
 
@@ -125,9 +141,10 @@ function renderNotesTable() {
   });
 }
 
-function addRow() {
-  notes.push({ id: makeId(), code: '', targetPrice: '', question: '' });
-  saveNotes(notes);
+async function addRow() {
+  const newNote = await insertNote();
+  if (!newNote) return;
+  notes.push(newNote);
   renderNotesTable();
   const rows = document.querySelectorAll('#notes-table-body tr');
   const lastRow = rows[rows.length - 1];
@@ -137,8 +154,9 @@ function addRow() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   renderWatchlistSidebar();
+  notes = await fetchNotes();
   renderNotesTable();
   document.getElementById('add-row-btn').addEventListener('click', addRow);
 });
